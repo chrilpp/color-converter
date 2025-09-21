@@ -1,8 +1,8 @@
 <template>
   <div class="app">
-    <h1>Color Converter</h1>
-
     <div class="converter">
+      <h1>Color Converter</h1>
+
       <label>
         Mode:
         <select v-model="mode">
@@ -129,16 +129,9 @@ body {
 .app {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 2rem;
-}
-
-h1 {
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-  font-weight: 600;
 }
 
 .converter {
@@ -149,8 +142,14 @@ h1 {
   width: 60vw;
   max-width: 800px;
   min-width: 320px;
-  margin: 0 auto;
   transition: all 0.3s ease;
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 600;
 }
 
 label {
