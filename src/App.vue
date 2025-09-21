@@ -129,8 +129,10 @@ body {
 .app {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 2rem;
 }
 
 h1 {
@@ -147,6 +149,7 @@ h1 {
   width: 60vw;
   max-width: 800px;
   min-width: 320px;
+  margin: 0 auto;
   transition: all 0.3s ease;
 }
 
