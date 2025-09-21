@@ -1,49 +1,50 @@
 <template>
   <div class="app">
-    <div class="converter">
+    <div class="center-box">
       <h1>Color Converter</h1>
+      <div class="converter">
+        <label>
+          Mode:
+          <select v-model="mode">
+            <option value="hexToRgb">Hex → RGB & %RGB</option>
+            <option value="rgbToHex">RGB → Hex & %RGB</option>
+            <option value="prgbToHexRgb">%RGB → Hex & RGB</option>
+          </select>
+        </label>
 
-      <label>
-        Mode:
-        <select v-model="mode">
-          <option value="hexToRgb">Hex → RGB & %RGB</option>
-          <option value="rgbToHex">RGB → Hex & %RGB</option>
-          <option value="prgbToHexRgb">%RGB → Hex & RGB</option>
-        </select>
-      </label>
+        <div v-if="mode === 'hexToRgb'" class="inputs">
+          <input v-model="hex" placeholder="#RRGGBB" />
+        </div>
 
-      <div v-if="mode === 'hexToRgb'" class="inputs">
-        <input v-model="hex" placeholder="#RRGGBB" />
+        <div v-else-if="mode === 'rgbToHex'" class="inputs">
+          <input type="number" v-model.number="r" placeholder="R (0-255)" />
+          <input type="number" v-model.number="g" placeholder="G (0-255)" />
+          <input type="number" v-model.number="b" placeholder="B (0-255)" />
+        </div>
+
+        <div v-else class="inputs">
+          <input type="number" v-model.number="pr" placeholder="%R (0-100)" />
+          <input type="number" v-model.number="pg" placeholder="%G (0-100)" />
+          <input type="number" v-model.number="pb" placeholder="%B (0-100)" />
+        </div>
+
+        <div class="results" v-if="result">
+          <p v-if="mode === 'hexToRgb'">
+            RGB: {{ result.rgb }}<br />
+            %RGB: {{ result.prgb }}
+          </p>
+          <p v-else-if="mode === 'rgbToHex'">
+            Hex: {{ result.hex }}<br />
+            %RGB: {{ result.prgb }}
+          </p>
+          <p v-else>
+            Hex: {{ result.hex }}<br />
+            RGB: {{ result.rgb }}
+          </p>
+        </div>
+
+        <div class="color-preview" :style="{ backgroundColor: previewColor }"></div>
       </div>
-
-      <div v-else-if="mode === 'rgbToHex'" class="inputs">
-        <input type="number" v-model.number="r" placeholder="R (0-255)" />
-        <input type="number" v-model.number="g" placeholder="G (0-255)" />
-        <input type="number" v-model.number="b" placeholder="B (0-255)" />
-      </div>
-
-      <div v-else class="inputs">
-        <input type="number" v-model.number="pr" placeholder="%R (0-100)" />
-        <input type="number" v-model.number="pg" placeholder="%G (0-100)" />
-        <input type="number" v-model.number="pb" placeholder="%B (0-100)" />
-      </div>
-
-      <div class="results" v-if="result">
-        <p v-if="mode === 'hexToRgb'">
-          RGB: {{ result.rgb }}<br />
-          %RGB: {{ result.prgb }}
-        </p>
-        <p v-else-if="mode === 'rgbToHex'">
-          Hex: {{ result.hex }}<br />
-          %RGB: {{ result.prgb }}
-        </p>
-        <p v-else>
-          Hex: {{ result.hex }}<br />
-          RGB: {{ result.rgb }}
-        </p>
-      </div>
-
-      <div class="color-preview" :style="{ backgroundColor: previewColor }"></div>
     </div>
   </div>
 </template>
@@ -131,7 +132,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+}
+
+.center-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .converter {
@@ -150,6 +156,7 @@ h1 {
   margin: 0 0 1.5rem;
   font-size: 2rem;
   font-weight: 600;
+  text-align: center;
 }
 
 label {
