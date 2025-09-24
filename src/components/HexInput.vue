@@ -5,8 +5,11 @@
 <script setup>
 import { ref, watch } from 'vue'
 const props = defineProps({
-  modelValue: String
+  modelValue: String,
 })
 const hex = ref(props.modelValue || '')
-watch(() => props.modelValue, v => hex.value = v)
+watch(
+  () => props.modelValue,
+  (v) => (hex.value = v)
+)
 </script>

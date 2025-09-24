@@ -16,14 +16,16 @@
 </template>
 
 <script setup>
-
 import { watch } from 'vue'
 const props = defineProps({
   result: Object,
-  mode: String
+  mode: String,
 })
-watch (() => props.result, val => {
-  console.log("result changed:", val)
-})
-console.log("result", props.result)
+watch(
+  () => props.result,
+  (val) => {
+    console.log('result changed:', val)
+  }
+)
+console.log('result', props.result)
 </script>
