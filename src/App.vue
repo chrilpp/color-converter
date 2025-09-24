@@ -3,45 +3,21 @@
     <div class="center-box">
       <h1>Color Converter</h1>
       <div class="converter">
-        <label>
-          Mode:
-          <select v-model="mode">
-            <option value="hexToRgb">Hex → RGB & %RGB</option>
-            <option value="rgbToHex">RGB → Hex & %RGB</option>
-            <option value="prgbToHexRgb">%RGB → Hex & RGB</option>
-          </select>
-        </label>
+        <ModeSelector v-model="mode" />
 
         <div v-if="mode === 'hexToRgb'" class="inputs">
-          <input v-model="hex" placeholder="#RRGGBB" />
+          <HexInput :modelValue="hex" @update:hex="hex = $event" />
         </div>
 
         <div v-else-if="mode === 'rgbToHex'" class="inputs">
-          <input type="number" v-model.number="r" placeholder="R (0-255)" />
-          <input type="number" v-model.number="g" placeholder="G (0-255)" />
-          <input type="number" v-model.number="b" placeholder="B (0-255)" />
+          <RgbInput :modelValue="{ r, g, b }" @update:rgb="({ r: rv, g: gv, b: bv }) => { r = rv; g = gv; b = bv }" />
         </div>
 
         <div v-else class="inputs">
-          <input type="number" v-model.number="pr" placeholder="%R (0-100)" />
-          <input type="number" v-model.number="pg" placeholder="%G (0-100)" />
-          <input type="number" v-model.number="pb" placeholder="%B (0-100)" />
+          <PercentRgbInput :modelValue="{ pr, pg, pb }" @update:prgb="({ pr: prv, pg: pgv, pb: pbv }) => { pr = prv; pg = pgv; pb = pbv }" />
         </div>
 
-        <div class="results" v-if="result">
-          <p v-if="mode === 'hexToRgb'">
-            RGB: {{ result.rgb }}<br />
-            %RGB: {{ result.prgb }}
-          </p>
-          <p v-else-if="mode === 'rgbToHex'">
-            Hex: {{ result.hex }}<br />
-            %RGB: {{ result.prgb }}
-          </p>
-          <p v-else>
-            Hex: {{ result.hex }}<br />
-            RGB: {{ result.rgb }}
-          </p>
-        </div>
+        <ResultPreview :result="result" :mode="mode" />
 
         <div class="color-preview" :style="{ backgroundColor: previewColor }"></div>
       </div>
@@ -51,6 +27,11 @@
 
 <script setup>
 import { computed, ref } from "vue";
+import ModeSelector from './components/ModeSelector.vue';
+import HexInput from './components/HexInput.vue';
+import RgbInput from './components/RgbInput.vue';
+import PercentRgbInput from './components/PercentRgbInput.vue';
+import ResultPreview from './components/ResultPreview.vue';
 
 const mode = ref("hexToRgb");
 
