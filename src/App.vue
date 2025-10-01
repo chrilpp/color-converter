@@ -39,17 +39,21 @@
 
         <div class="color-preview" :style="{ backgroundColor: previewColor }"></div>
       </div>
+      <div>
+        <!-- <HistoryList :conversions="previousConversions" /> -->
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import ModeSelector from './components/ModeSelector.vue'
 import HexInput from './components/HexInput.vue'
 import RgbInput from './components/RgbInput.vue'
 import PercentRgbInput from './components/PercentRgbInput.vue'
 import ResultPreview from './components/ResultPreview.vue'
+import HistoryList from './components/HistoryList.vue'
 
 const mode = ref('hexToRgb')
 
@@ -60,6 +64,7 @@ const b = ref(0)
 const pr = ref(100)
 const pg = ref(0)
 const pb = ref(0)
+const previousConversions = ref([])
 
 function clamp(val, min, max) {
   return Math.min(Math.max(val, min), max)
@@ -80,7 +85,7 @@ const result = computed(() => {
     const rVal = clamp(r.value, 0, 255)
     const gVal = clamp(g.value, 0, 255)
     const bVal = clamp(b.value, 0, 255)
-    const hexVal = '#' + [rVal, gVal, bVal].map((x) => x.toString(16).padStart(2, '0')).join('')
+    const hexVal = '#' + [rVal, gVal, bVal].map(x => x.toString(16).padStart(2, '0')).join('')
     return {
       hex: hexVal,
       prgb: `${((rVal / 255) * 100).toFixed(1)}%, ${((gVal / 255) * 100).toFixed(1)}%, ${((bVal / 255) * 100).toFixed(1)}%`,
@@ -89,7 +94,7 @@ const result = computed(() => {
     const rVal = clamp(Math.round((pr.value / 100) * 255), 0, 255)
     const gVal = clamp(Math.round((pg.value / 100) * 255), 0, 255)
     const bVal = clamp(Math.round((pb.value / 100) * 255), 0, 255)
-    const hexVal = '#' + [rVal, gVal, bVal].map((x) => x.toString(16).padStart(2, '0')).join('')
+    const hexVal = '#' + [rVal, gVal, bVal].map(x => x.toString(16).padStart(2, '0')).join('')
     return {
       hex: hexVal,
       rgb: `${rVal}, ${gVal}, ${bVal}`,
@@ -108,6 +113,13 @@ const previewColor = computed(() => {
     return result.value.hex
   }
 })
+
+// watch(result, newResult => {
+//   if (newResult) {
+//     previousConversions.value = [...previousConversions.value, newResult]
+//     console.log('previousConversions updated:', previousConversions.value)
+//   }
+// })
 </script>
 
 <style>

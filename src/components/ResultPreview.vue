@@ -23,7 +23,7 @@ const props = defineProps({
 })
 watch(
   () => props.result,
-  (val) => {
+  val => {
     console.log('result changed:', val)
   }
 )
